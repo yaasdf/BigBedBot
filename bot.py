@@ -73,7 +73,7 @@ def onQQMessage(bot, contact, member, content):
         time.sleep(2)
         returnMsg = content + ('（跌坑除外）' if randint(0, 4) == 0 else '')
 
-    if returnMsg is None or len(returnMsg) != 0:
+    if returnMsg is not None and len(returnMsg) != 0:
         bot.SendTo(contact, returnMsg)
 
 
