@@ -86,13 +86,16 @@ def eating(query, contact, member):
 
 @register_commands('撤回')
 def undo(query, contact, member):
-    """返回撤回消息，格式：撤回 <第几条>"""
+    """返回撤回消息，格式：撤回 消息位置"""
     try:
-        msg = history[int(query.split()[1]) - 1]
-        return '{who} 撤回了一条xio息：{detail}'.format(
+        idx = int(query.split()[1]) - 1
+        if idx >= -1:
+            raise ValueError
+        msg = history[idx]
+        return '{who} 发了的xio息是：{detail}'.format(
             who=msg.sender, detail=msg.content)
     except ValueError:
-        return "格式有问题，请使用如：撤回 -1"
+        return "格式或消息位置有问题，请使用如：撤回 -1"
     except IndexError:
         return "么得这条消息，也许是我还没收集到 or 你问的太远"
 
