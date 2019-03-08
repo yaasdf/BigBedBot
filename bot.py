@@ -11,7 +11,7 @@ CQATME = "[CQ:at,qq=3303205712]"
 
 def randint(l, r):
     value = int.from_bytes(urandom(32), 'big') % (r - l) + l
-    print('[randint] [%d ~ %d] 返回了 %d', l, r, value)
+    print('[randint] [{} ~ {}] 返回了 {}'.format(l, r, value))
     return value
 
 
@@ -97,7 +97,7 @@ def eating10(at, qq, query):
     foods = []
     for i in range(0, 10):
         foods.append(randint(0, len(meal_def) + len(meal)))
-    foods.sort()
+    #foods.sort()
     for f in foods:
         ret += '- ' + getFood(f) + '\n'
     ret += "吃东西还十连，祝您撑死，哈哈"
@@ -124,7 +124,15 @@ food_blacklist = [
         '哈哈',
         '小号',
         '群主',
-        '杀了'
+        '杀了',
+        '已经有了',
+        '我把菜名做成面条你都吃不完',
+        '已添加',
+        '加菜',
+        '你阔以选择',
+        '么得这个功能',
+        '吃什么',
+        '祝您撑死',
         ]
 
 @register_commands('加菜')
@@ -142,9 +150,15 @@ def eating(at, qq, query):
     for fd in meal:
         if food == fd.split(' ', 1)[0]:
             return "{meal}已经有了！！！！".format(meal=food)
+    #喝的过滤
+    for fd in drink:
+        return "{meal}似乎是一种饮料".format(meal=food)
+    #长度过滤
+    if len(food) > 30:
+        return "我把菜名做成面条你都吃不完"
     #表情过滤
-    if '/表情' in food or '/Emoji' in food:
-        return "bot看不懂表情"
+    #if '/表情' in food or '/Emoji' in food:
+    #    return "bot看不懂表情"
     #黑名单过滤
     for fb in food_blacklist:
         if fb in food:
